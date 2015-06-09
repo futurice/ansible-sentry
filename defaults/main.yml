@@ -1,0 +1,7 @@
+---
+repo: https://github.com/futurice/sentry-skeleton.git
+
+sentry_release_path: /var/www/sentry/
+
+apt_packages:
+  - git
