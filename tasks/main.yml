@@ -6,19 +6,19 @@
   git: repo="{{repo}}" dest="{{sentry_release_path}}" version=master accept_hostkey=yes
 
 - pip: name=virtualenv
-- pip: requirements="{{sentry_release_path}}requirements.txt" virtualenv="{{virtualenv_path}}"
+- pip: requirements="{{sentry_release_path}}requirements.txt" virtualenv="{{sentry_virtualenv_path}}"
   register: pip_result
   ignore_errors: True
 
 - name: Install latest Sentry, when no requirements.txt provided
-  pip: name=Sentry virtualenv="{{virtualenv_path}}"
+  pip: name=Sentry virtualenv="{{sentry_virtualenv_path}}"
   when: pip_result|failed
 
 # conf.py (customization) imports server.conf.py (Sentry default configuration)
 - stat: "{{sentry_release_path}}server.conf.py"
   register: sentry_config
 
-- command: "{{virtualenv_path}}bin/sentry init {{sentry_release_path}}server.conf.py"
+- command: "{{sentry_virtualenv_path}}bin/sentry init {{sentry_release_path}}server.conf.py"
   when: not sentry_config.stat.exists
 
 - stat: "{sentry_release_path}}conf.py"

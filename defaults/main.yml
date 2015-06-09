@@ -2,6 +2,8 @@
 repo: https://github.com/futurice/sentry-skeleton.git
 
 sentry_release_path: /var/www/sentry/
+sentry_supervisor_user: www-data
+sentry_virtualenv_path: "{{sentry_release_path}}venv/"
 
 apt_packages:
   - git

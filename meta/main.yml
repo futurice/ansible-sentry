@@ -8,11 +8,11 @@ galaxy_info:
   platforms:
   - name: Ubuntu
     versions:
-    - all
+    - trusty
   - name: Debian
     versions:
-    - all
+    - jessie
   categories:
     - web
-dependencies: ['futurice.pip','futurice.supervisor']
+dependencies: ['futurice.pip',]
   
