@@ -2,27 +2,36 @@
 - action: apt pkg={{item}} state=installed
   with_items: apt_packages
 
-- name: Pull repository sources using RSA keys from deploying users own SSH config
-  git: repo="{{repo}}" dest="{{sentry_release_path}}" version=master accept_hostkey=yes
+- name: Git Deploy
+  when: git_repo != ''
+  include: ../../futurice.release/tasks/git_deploy.yml
 
 - pip: name=virtualenv
-- pip: requirements="{{sentry_release_path}}requirements.txt" virtualenv="{{sentry_virtualenv_path}}"
+- pip: requirements="{{release_path}}requirements.txt" virtualenv="{{release_venv}}"
   register: pip_result
   ignore_errors: True
 
 - name: Install latest Sentry, when no requirements.txt provided
-  pip: name=Sentry virtualenv="{{sentry_virtualenv_path}}"
+  pip: name=Sentry virtualenv="{{release_venv}}"
   when: pip_result|failed
 
-# conf.py (customization) imports server.conf.py (Sentry default configuration)
-- stat: path="{{sentry_release_path}}server.conf.py"
-  register: sentry_config
+- stat: path="{{sentry_config}}"
+  register: result_sentry_config
 
-- command: "{{sentry_virtualenv_path}}bin/sentry init {{sentry_release_path}}server.conf.py"
-  when: not sentry_config.stat.exists
+- shell: "{{release_venv}}bin/sentry init {{sentry_config}}"
+  when: not result_sentry_config.stat.exists
 
-- stat: path="{sentry_release_path}}conf.py"
-  register: sentry_project_config
+- shell: "{{release_venv}}bin/sentry --config={{sentry_config}} upgrade"
+  async: 25
+  poll: 5
 
-- template: src=conf.py dest="{{sentry_release_path}}"
-  when: not sentry_project_config.stat.exists
+- template: src=setup.py dest="{{release_path}}setup.py" mode=0755
+  register: result_setup
+
+- shell: "{{release_venv}}bin/python setup.py"
+  args:
+    chdir: "{{release_path}}"
+  when: result_setup.changed
+
+- template: src=supervisor.conf dest={{supervisor_conf_dir}}sentry_supervisor.conf
+  notify: reload and restart supervisor for project

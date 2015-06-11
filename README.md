@@ -7,7 +7,13 @@ Ansible role for [Sentry](https://github.com/getsentry/sentry).
 Requirements
 ------------
 
-Customize Sentry configuration in templates/conf.py
+- git clone https://github.com/futurice/sentry-skeleton
+- customize inventory to match your target server(s)
+- customise conf.py, see [Sentry configuration](http://sentry.readthedocs.org/en/latest/getting-started/index.html)
+ - SENTRY_ADMIN_EMAIL
+ - SENTRY_URL_PREFIX
+- deploy sentry project using ansible
+
 
 
 Role Variables
@@ -15,14 +21,12 @@ Role Variables
 
 ```yaml
 ---
-repo: https://github.com/futurice/sentry-skeleton.git
-sentry_release_path: /var/www/sentry/
 ```
 
 Example Playbook
 ----------------
 
-    - hosts: servers
+    - hosts: all
       roles:
          - { role: futurice.sentry }
 

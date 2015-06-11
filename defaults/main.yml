@@ -1,9 +1,19 @@
 ---
-repo: https://github.com/futurice/sentry-skeleton.git
+git_repo: '.'
+release_path: /var/www/sentry/
 
-sentry_release_path: /var/www/sentry/
-sentry_supervisor_user: www-data
-sentry_virtualenv_path: "{{sentry_release_path}}venv/"
+release_venv: "{{release_path}}venv/"
+sentry_config: "{{release_path}}conf.py"
+sentry_supervisor_user: deploy
+
+sentry_enabled: true
+sentry_db_engine: 'sqlite' # sqlite,postgres,mysql
+
+sentry_admin_username: admin
+sentry_admin_email: admin@admin.com
+sentry_admin_password: admin
+
+supervisor_app: sentry
 
 apt_packages:
   - git
