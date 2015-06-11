@@ -15,7 +15,6 @@ Requirements
 - deploy sentry project using ansible
 
 
-
 Role Variables
 --------------
 
