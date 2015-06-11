@@ -21,8 +21,8 @@
 - shell: "{{release_venv}}bin/sentry init {{sentry_config}}"
   when: not result_sentry_config.stat.exists
 
-- shell: "{{release_venv}}bin/sentry --config={{sentry_config}} upgrade"
-  async: 25
+- shell: "{{release_venv}}bin/sentry --config={{sentry_config}} upgrade --noinput"
+  async: 60
   poll: 5
 
 - template: src=setup.py dest="{{release_path}}setup.py" mode=0755
