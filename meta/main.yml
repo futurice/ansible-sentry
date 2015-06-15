@@ -14,5 +14,5 @@ galaxy_info:
     - jessie
   categories:
     - web
-dependencies: ['futurice.pip','futurice.release','futurice.supervisor',]
+dependencies: ['futurice.pip','futurice.release','futurice.supervisor','futurice.apache']
   

@@ -33,5 +33,31 @@
     chdir: "{{release_path}}"
   when: result_setup.changed
 
-- template: src=supervisor.conf dest={{supervisor_conf_dir}}sentry_supervisor.conf
+- template: src=supervisor.conf dest="{{supervisor_conf_dir}}sentry_supervisor.conf"
   notify: reload and restart supervisor for project
+
+# APACHE
+- include: ../../futurice.apache/tasks/main.yml
+  when: sentry_using_apache
+
+- template: src=apache.conf dest="{{apache_sites_dir}}sentry.conf"
+  become_user: root
+  when: sentry_using_apache
+  notify:
+      - restart apache
+
+- apache2_module: state=present name={{item}}
+  become_user: root
+  with_items:
+    - wsgi
+    - headers
+    - proxy
+    - proxy_http
+  when: sentry_using_apache
+  notify:
+      - restart apache
+
+# NGINX
+- template: src=nginx.conf dest="{{nginx_sites_dir}}sentry.conf"
+  become_user: root
+  when: sentry_using_nginx

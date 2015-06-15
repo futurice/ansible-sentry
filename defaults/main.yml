@@ -6,8 +6,14 @@ release_venv: "{{release_path}}venv/"
 sentry_config: "{{release_path}}conf.py"
 sentry_supervisor_user: deploy
 
+sentry_using_apache: false
+sentry_using_nginx: false
+
 sentry_enabled: true
 sentry_db_engine: 'sqlite' # sqlite,postgres,mysql
+
+sentry_web_port: 9000
+sentry_url: http://localhost
 
 sentry_admin_username: admin
 sentry_admin_email: admin@admin.com
