@@ -22,7 +22,7 @@ sentry_admin_password: admin
 sentry_admin_email: "admin@{{sentry_domain}}"
 sentry_admin_orgs: ["Sentry", "{{sentry_domain}}"]
 
-supervisor_app: sentry
+supervisor_group: sentry
 
 apt_packages:
   - git

@@ -13,7 +13,7 @@ admin.save()
 org,_ = Organization.objects.get_or_create(name="{{o}}", defaults={"owner": admin})
 om,_ = OrganizationMember.objects.get_or_create(organization=org, user=admin, type=0)
 team,_ = Team.objects.get_or_create(name="Sentry", organization=org)
-project,_ = Project.objects.get_or_create(name="Backend", defaults={"team": team, "organization": org, "platform": "django"})
+project,_ = Project.objects.get_or_create(name="Backend", team=team, defaults={"organization": org, "platform": "django"})
 {% endfor %}
 
 {% endif %}
