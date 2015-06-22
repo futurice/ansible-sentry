@@ -7,8 +7,8 @@ env:
 
 before_install:
   - sudo apt-get update -qq
-  - useradd deploy
-  - adduser deploy sudo
+  - sudo useradd deploy
+  - sudo adduser deploy sudo
 
 install:
   - pip install ansible
