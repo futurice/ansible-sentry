@@ -26,3 +26,5 @@ supervisor_group: sentry
 
 apt_packages:
   - git
+  - libssl-dev
+  - libffi-dev

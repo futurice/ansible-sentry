@@ -1,9 +1,9 @@
 ---
 - hosts: localhost
-  remote_user: root
-  become: yes
+  #remote_user: root
+  #become: yes
   vars:
-    user: root
-    group: root
+    user: deploy
+    group: deploy
   roles:
     - futurice.sentry

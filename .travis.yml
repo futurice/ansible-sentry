@@ -7,6 +7,8 @@ env:
 
 before_install:
   - sudo apt-get update -qq
+  - useradd deploy
+  - adduser deploy sudo
 
 install:
   - pip install ansible
@@ -15,4 +17,4 @@ install:
 
 script:
   - "ansible-playbook -i tests/inventory tests/$SITE --syntax-check"
-  - "ansible-playbook -i tests/inventory tests/$SITE --connection=local --sudo"
+  - "ansible-playbook -i tests/inventory tests/$SITE --connection=local --become -u deploy"
