@@ -15,11 +15,9 @@
   pip: name=Sentry virtualenv="{{release_venv}}"
   when: pip_result|failed
 
-- stat: path="{{sentry_config}}"
-  register: result_sentry_config
+- template: src={{sentry_config_file}} dest="{{sentry_config}}"
 
-- shell: "{{release_venv}}bin/sentry init {{sentry_config}}"
-  when: not result_sentry_config.stat.exists
+- lineinfile: "dest={{sentry_config}} regexp='^SECRET_KEY = \"\"' line='SECRET_KEY = \"change-this-default-value\"'"
 
 - shell: "{{release_venv}}bin/sentry --config={{sentry_config}} upgrade --noinput"
   async: 60

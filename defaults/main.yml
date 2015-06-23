@@ -3,7 +3,8 @@ git_repo: '.'
 release_path: /var/www/sentry/
 
 release_venv: "{{release_path}}venv/"
-sentry_config: "{{release_path}}conf.py"
+sentry_config_file: "conf.py"
+sentry_config: "{{release_path}}{{sentry_config_file}}"
 sentry_supervisor_user: deploy
 
 sentry_using_apache: false
@@ -15,6 +16,7 @@ sentry_db_engine: 'sqlite' # sqlite,postgres,mysql
 sentry_web_port: 9000
 sentry_protocol: http
 sentry_domain: localhost
+sentry_url: "http://{{sentry_domain}}"
 
 # initial admin -user setup
 sentry_admin_username: admin
