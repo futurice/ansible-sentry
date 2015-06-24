@@ -11,8 +11,9 @@
   become_user: root
 
 - name: Install latest Sentry
-  pip: name=Sentry virtualenv="{{release_venv}}"
+  become: true
   become_user: "{{release_user}}"
+  pip: name=Sentry virtualenv="{{release_venv}}"
 
 - template: src={{sentry_config_file}} dest="{{sentry_config}}" owner={{release_user}} group={{release_group}}
 
@@ -28,6 +29,7 @@
   register: result_setup
 
 - shell: "{{release_venv}}bin/python setup.py"
+  become: true
   become_user: "{{release_user}}"
   args:
     chdir: "{{release_path}}"
