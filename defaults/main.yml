@@ -1,11 +1,12 @@
 ---
 git_repo: '.'
-release_path: /var/www/sentry/
 
+release_path: "/var/www/sentry/"
 release_venv: "{{release_path}}venv/"
+
 sentry_config_file: "conf.py"
 sentry_config: "{{release_path}}{{sentry_config_file}}"
-sentry_supervisor_user: deploy
+sentry_supervisor_user: "{{release_user}}"
 
 sentry_using_apache: false
 sentry_using_nginx: false

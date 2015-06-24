@@ -7,26 +7,27 @@
   include: ../../futurice.release/tasks/git_deploy.yml
 
 - pip: name=virtualenv
-- pip: requirements="{{release_path}}requirements.txt" virtualenv="{{release_venv}}"
-  register: pip_result
-  ignore_errors: True
+  become: true
+  become_user: root
 
-- name: Install latest Sentry, when no requirements.txt provided
+- name: Install latest Sentry
   pip: name=Sentry virtualenv="{{release_venv}}"
-  when: pip_result|failed
+  become_user: "{{release_user}}"
 
-- template: src={{sentry_config_file}} dest="{{sentry_config}}"
+- template: src={{sentry_config_file}} dest="{{sentry_config}}" owner={{release_user}} group={{release_group}}
 
 - lineinfile: "dest={{sentry_config}} regexp='^SECRET_KEY = \"\"' line='SECRET_KEY = \"change-this-default-value\"'"
 
 - shell: "{{release_venv}}bin/sentry --config={{sentry_config}} upgrade --noinput"
+  become_user: "{{release_user}}"
   async: 60
   poll: 5
 
-- template: src=setup.py dest="{{release_path}}setup.py" mode=0755
+- template: src=setup.py dest="{{release_path}}setup.py" mode=0755 owner={{release_user}} group={{release_group}}
   register: result_setup
 
 - shell: "{{release_venv}}bin/python setup.py"
+  become_user: "{{release_user}}"
   args:
     chdir: "{{release_path}}"
   when: result_setup.changed
