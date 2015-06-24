@@ -19,6 +19,7 @@
 - lineinfile: "dest={{sentry_config}} regexp='^SECRET_KEY = \"\"' line='SECRET_KEY = \"change-this-default-value\"'"
 
 - shell: "{{release_venv}}bin/sentry --config={{sentry_config}} upgrade --noinput"
+  become: true
   become_user: "{{release_user}}"
   async: 60
   poll: 5
