@@ -17,7 +17,7 @@ sentry_db_engine: 'sqlite' # sqlite,postgres,mysql
 sentry_web_port: 9000
 sentry_protocol: http
 sentry_domain: localhost
-sentry_url: "http://{{sentry_domain}}"
+sentry_url: "{{sentry_protocol}}://{{sentry_domain}}"
 
 # initial admin -user setup
 sentry_admin_username: admin

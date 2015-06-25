@@ -60,6 +60,7 @@
     - headers
     - proxy
     - proxy_http
+    - ssl
   when: sentry_using_apache
   notify:
       - restart apache
@@ -68,3 +69,5 @@
 - template: src=nginx.conf dest="{{nginx_sites_dir}}sentry.conf"
   become_user: root
   when: sentry_using_nginx
+
+# REDIS
