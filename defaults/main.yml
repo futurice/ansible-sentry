@@ -29,5 +29,9 @@ supervisor_group: sentry
 
 apt_packages:
   - git
+  - python-dev
+  - build-essential
   - libssl-dev
   - libffi-dev
+  - libxml2-dev
+  - libxslt-dev
